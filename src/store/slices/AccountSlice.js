@@ -13,6 +13,8 @@ export const login = createAsyncThunk('auth/login', async (data)=>{
         headers: {'Content-Type': 'application/json'},      // JSON 형태로 전달
         body: JSON.stringify(data),                         // JSON 형태로 전달
     });
+    
+    console.log('서버로 전송: ', data);
     const result = await res.json();
     console.log('서버응답: ',result);
 
@@ -69,6 +71,11 @@ const slice = createSlice({
             login.fulfilled, (state, action)=>{
                 state.status = "success"
                 state.user = action.payload;
+
+                // 세션스토리지나 로컬스트로지는 보통 JSON형태로 저장을 한다
+                // 로그인 정보는 웹창을 닫았을 때 제거가 되어야하기 때문에 로컬스토리지가 아닌 세션스토리지에 저장
+                // 새로고침을 하면 정보가 날라가서 새로고침 완료되면 세션스토리지에서 다시 받아오기
+                sessionStorage.setItem('user', JSON.stringify(action.payload));
             }
         )
     }
