@@ -38,9 +38,14 @@ export default function Login(){
                 <br/>
                 {
                     user ? (
-                        <button onClick={()=>{dispatch(logout())}}>로그아웃</button>
+                        <div>
+                            <button onClick={()=>{dispatch(logout())}}>로그아웃</button>
+                            <p>{user.name}님 반갑습니다</p>
+                        </div>
                     ) : (
-                        <button type='submit'>로그인</button>
+                        <div>
+                            <button type='submit'>로그인</button>
+                        </div>
                     )
                 }
                 

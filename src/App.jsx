@@ -3,9 +3,27 @@ import { Link, Navigate, Route, Routes } from 'react-router-dom';
 import styles from './App.module.css';
 import Login from './pages/Login/Login';
 import Status from './pages/Status/Status';
+import { useDispatch } from 'react-redux';
+import { restore } from './store/slices/AccountSlice';
+import { useEffect } from 'react';
 
 // 로그인 정보는 리덕스에서 전역으로 보관
 export default function App(){
+  const dispatch = useDispatch();     // 리덕스의 함수를 사용하기 위해
+
+  useEffect(()=>{
+    const user = sessionStorage.getItem('user');
+    if(user && user !== "undefined"){
+      try{
+        const obj_user = JSON.parse(user);
+        dispatch(restore(obj_user));    // 새로고침하면 리덕스의 user 정보에 세션스토리지 정보를 넣어준다
+      }
+      catch(err){
+        console.error(err);
+      }
+    }
+  }, [dispatch]);
+
   return(
     <div className={styles.App}>
       <Link to='/login'>로그인</Link>

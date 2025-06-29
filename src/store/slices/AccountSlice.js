@@ -47,6 +47,7 @@ const slice = createSlice({
             console.log('새로고침')
             // 세션스토리지의 user에서 값을 받아와서 state를 업데이트
             state.user = action.payload;            // 값을 변경
+            console.log()
         }
     },
     extraReducers:(builder)=>{
